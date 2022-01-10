@@ -7,14 +7,13 @@ import kotlinx.coroutines.withContext
 import okhttp3.Dispatcher
 import retrofit2.Response
 import retrofit2.Retrofit
+import javax.inject.Inject
 
-class QuoteService {
-    private val retrofit = RetrofitHelper.getRetrofit2()
+class QuoteService @Inject constructor(private val api: QuoteApiClient){
 
     suspend fun getQuotes(): List<Quote>{
         return withContext(Dispatchers.IO) {
-            val response: Response<List<Quote>> =
-                retrofit.create(QuoteApiClient::class.java).getAllQuote()
+            val response: Response<List<Quote>> = api.getAllQuote()
             response.body() ?: emptyList()
         }
     }

@@ -6,7 +6,9 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.aneury1.frasesrapidas.ui.ViewModel.QuoteViewModel
 import com.aneury1.frasesrapidas.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     val quoteViewModel : QuoteViewModel by viewModels()

@@ -1,6 +1,11 @@
 package com.aneury1.frasesrapidas.data.model
 
-object QuoteProvider {
+import javax.inject.Inject
+import javax.inject.Singleton
+
+
+@Singleton
+class QuoteProvider @Inject constructor(){
 
     private val isLocal = false;
 

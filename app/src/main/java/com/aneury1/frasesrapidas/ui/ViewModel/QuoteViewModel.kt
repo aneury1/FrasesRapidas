@@ -8,15 +8,21 @@ import com.aneury1.frasesrapidas.data.model.Quote
 import com.aneury1.frasesrapidas.data.model.QuoteProvider
 import com.aneury1.frasesrapidas.domain.GetQuoteUseCase
 import com.aneury1.frasesrapidas.domain.GetRandomUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class QuoteViewModel : ViewModel() {
+
+@HiltViewModel
+class QuoteViewModel  @Inject constructor(
+    private val getQuoteUseCase : GetQuoteUseCase,
+    private val  getRandomUseCase: GetRandomUseCase,
+    private val quoteProvider: QuoteProvider
+) : ViewModel() {
 
    val quoteModel = MutableLiveData<Quote>()
-    val isLoading = MutableLiveData<Boolean>()
+   val isLoading = MutableLiveData<Boolean>()
 
-    var getQuoteUseCase = GetQuoteUseCase()
-    var getRandomUseCase= GetRandomUseCase()
 
     fun onCreateViewModel(){
         viewModelScope.launch {
@@ -24,9 +30,8 @@ class QuoteViewModel : ViewModel() {
               isLoading.postValue(true)
              if(!result.isNullOrEmpty()){
                  quoteModel.postValue(result[0])
-
              }
-             else quoteModel.postValue(QuoteProvider.getQuoteLocal())
+             else quoteModel.postValue(quoteProvider.getQuoteLocal())
             isLoading.postValue(false)
         }
     }
