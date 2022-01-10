@@ -1,6 +1,10 @@
-package com.aneury1.frasesrapidas.model
+package com.aneury1.frasesrapidas.data.model
 
 object QuoteProvider {
+
+    private val isLocal = false;
+
+    var quotesOnline :List<Quote> = emptyList()
 
     private val localQuotes = listOf<Quote>(
         Quote("1","aneury"),
@@ -25,9 +29,14 @@ object QuoteProvider {
         Quote("5445451","aneury"),
         Quote("454545451","aneury"),
     )
-    fun getQuote(): Quote{
-        val position = (0..20).random()
 
+    fun getQuoteLocal(): Quote{
+        val position = (0..20).random()
         return localQuotes[position]
+    }
+    fun getQuote():Quote{
+        if(isLocal || quotesOnline.isEmpty())return getQuoteLocal()
+        val position = (0..quotesOnline.size-1).random()
+        return quotesOnline[position]
     }
 }

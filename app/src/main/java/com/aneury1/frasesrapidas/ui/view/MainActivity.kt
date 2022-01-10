@@ -1,10 +1,10 @@
-package com.aneury1.frasesrapidas
+package com.aneury1.frasesrapidas.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.activity.viewModels
-import com.aneury1.frasesrapidas.ViewModel.QuoteViewModel
+import androidx.core.view.isVisible
+import com.aneury1.frasesrapidas.ui.ViewModel.QuoteViewModel
 import com.aneury1.frasesrapidas.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -15,11 +15,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         mainBinding =  ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
+
+        quoteViewModel.onCreateViewModel()
+
+        // Update View by Change the View Model
         quoteViewModel.quoteModel.observe(this,{
             mainBinding.quote.text = it.quote
         })
+
+        quoteViewModel.isLoading.observe(this,{
+            mainBinding.progress1.isVisible = it
+        })
+
+        //Set SCreen Listener
         mainBinding.screento.setOnClickListener{
             quoteViewModel.randomQuote()
         }
